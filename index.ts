@@ -17,21 +17,20 @@ export class PClient {
     this._pgClient = new _pg.Client(connection)
   }
   connect(): Promise<PClient> {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this._pgClient.connect(err => {
-        if (err) throw err
+        if (err) return reject(err)
         resolve(this)
       })
     })
   }
   query(queryText: string | _pg.QueryConfig, ...args): Promise<_pg.QueryResult> {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const result = (err, res) => {
-        if (err) throw err
+        if (err) return reject(err)
         resolve(res)
       }
       if (typeof queryText === 'string') {
-        console.log(queryText)
         this._pgClient.query(queryText, [...args], result)
       }
       else {

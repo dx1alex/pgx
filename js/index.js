@@ -16,23 +16,22 @@ class PClient {
         this._pgClient = new _pg.Client(connection);
     }
     connect() {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this._pgClient.connect(err => {
                 if (err)
-                    throw err;
+                    return reject(err);
                 resolve(this);
             });
         });
     }
     query(queryText, ...args) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             const result = (err, res) => {
                 if (err)
-                    throw err;
+                    return reject(err);
                 resolve(res);
             };
             if (typeof queryText === 'string') {
-                console.log(queryText);
                 this._pgClient.query(queryText, [...args], result);
             }
             else {
