@@ -1,0 +1,19 @@
+{
+  "name": "pgx",
+  "version": "0.1.3",
+  "description": "pgx",
+  "main": "js/index.js",
+  "typings": "js/index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dx1alex/pgx.git"
+  },
+  "author": "dx1alex",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^4.5.1"
+  }
+}
