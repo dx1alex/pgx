@@ -69,7 +69,8 @@ class Collection {
             const sql = `select${Object(options).distinct ? ' distinct' : ''} ${q.select || 'body'}
       from ${this.tableName}
       where ${q.where || true}
-      order by ${q.orderBy || 'id'} ${q.limit ? 'limit ' + q.limit : ''};`;
+      ${q.orderBy ? 'order by ' + q.orderBy : ''} ${q.limit ? 'limit ' + q.limit : ''};`;
+            console.log(sql);
             const res = yield this.db.query(sql, ...q.args);
             return res.rows.map(v => q.select ? v : v.body);
         });
