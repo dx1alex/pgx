@@ -16,6 +16,10 @@
     ],
     "files": [
         "./index.ts",
+        "./lib/collection.ts",
+        "./lib/init.ts",
+        "./lib/xclient.ts",
+        "./mytest/pgdoc.ts",
         "./mytest/test.ts",
         "./typings/node/node.d.ts",
         "./typings/pg/pg.d.ts",
