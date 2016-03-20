@@ -8,3 +8,4 @@ export declare const pg: typeof _pg & {
     XClient: typeof XClient;
     cc: (connection?: any) => Promise<XClient>;
 };
+export default pg;

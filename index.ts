@@ -13,3 +13,5 @@ export function sql(str, ...values) {
 }
 
 export const pg = Object.assign(_pg, { XClient, cc })
+
+export default pg

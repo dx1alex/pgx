@@ -12,3 +12,5 @@ function sql(str, ...values) {
 }
 exports.sql = sql;
 exports.pg = Object.assign(_pg, { XClient: xclient_1.XClient, cc: cc });
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = exports.pg;
