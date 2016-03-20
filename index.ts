@@ -1,5 +1,8 @@
 import * as _pg from 'pg'
-import {XClient} from './lib/xclient'
+import { XClient } from './lib/xclient'
+
+export * from './lib/xclient'
+export * from './lib/collection'
 
 function cc(connection?) {
   return new XClient(connection).connect()
@@ -12,6 +15,6 @@ export function sql(str, ...values) {
   }
 }
 
-export const pg = Object.assign(_pg, { XClient, cc })
+export const pg = Object.assign(_pg, { cc })
 
 export default pg
