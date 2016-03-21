@@ -1,10 +1,10 @@
-import { XClient } from './xclient';
+import { Client } from './client';
 export declare class Collection {
-    db: XClient;
+    db: Client;
     readonly name: string;
     readonly schema: string;
     readonly tableName: string;
-    constructor(name: string, db: XClient);
+    constructor(name: string, db: Client);
     truncate(): Promise<any>;
     drop(): Promise<any>;
     delete(query?: any): Promise<any>;

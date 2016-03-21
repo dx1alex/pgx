@@ -16,9 +16,9 @@
     ],
     "files": [
         "./index.ts",
+        "./lib/client.ts",
         "./lib/collection.ts",
         "./lib/init.ts",
-        "./lib/xclient.ts",
         "./mytest/test.ts",
         "./typings/node/node.d.ts",
         "./typings/pg/pg.d.ts",

@@ -1,11 +1,11 @@
 import * as _pg from 'pg'
-import { XClient } from './lib/xclient'
+import { Client } from './lib/client'
 
-export * from './lib/xclient'
+export * from './lib/client'
 export * from './lib/collection'
 
 function cc(connection?) {
-  return new XClient(connection).connect()
+  return new Client(connection).connect()
 }
 
 export function sql(str, ...values) {

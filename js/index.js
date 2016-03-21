@@ -3,11 +3,11 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 const _pg = require('pg');
-const xclient_1 = require('./lib/xclient');
-__export(require('./lib/xclient'));
+const client_1 = require('./lib/client');
+__export(require('./lib/client'));
 __export(require('./lib/collection'));
 function cc(connection) {
-    return new xclient_1.XClient(connection).connect();
+    return new client_1.Client(connection).connect();
 }
 function sql(str, ...values) {
     return {

@@ -1,10 +1,10 @@
-import {XClient} from './xclient'
+import {Client} from './client'
 
 export class Collection {
   readonly name: string
   readonly schema: string
   readonly tableName: string
-  constructor(name: string, public db: XClient) {
+  constructor(name: string, public db: Client) {
     [this.name, this.schema = 'collections'] = name.split('.').reverse()
     this.tableName = this.schema + '.' + this.name
   }

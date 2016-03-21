@@ -1,12 +1,12 @@
 import * as pg from 'pg'
 import {Collection} from './collection'
 
-export class XClient {
+export class Client {
   private _pgClient: pg.Client = null
   constructor(connection?: string) {
     this._pgClient = new pg.Client(connection)
   }
-  connect(): Promise<XClient> {
+  connect(): Promise<Client> {
     return new Promise((resolve, reject) => {
       this._pgClient.connect(err => {
         if (err) return reject(err)
