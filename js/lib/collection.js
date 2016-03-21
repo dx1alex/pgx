@@ -70,7 +70,6 @@ class Collection {
       from ${this.tableName}
       where ${q.where || true}
       ${q.orderBy ? 'order by ' + q.orderBy : ''} ${q.limit ? 'limit ' + q.limit : ''};`;
-            console.log(sql);
             const res = yield this.db.query(sql, ...q.args);
             return res.rows.map(v => q.select ? v : v.body);
         });
@@ -79,7 +78,7 @@ class Collection {
         return __awaiter(this, void 0, void 0, function* () {
             options.limit = 1;
             const res = yield this.find(query, options);
-            return res[0];
+            return res[0] || null;
         });
     }
     count(query, options = {}) {

@@ -53,14 +53,14 @@ export class Collection {
       from ${this.tableName}
       where ${q.where || true}
       ${q.orderBy ? 'order by ' + q.orderBy : ''} ${q.limit ? 'limit ' + q.limit : ''};`
-    console.log(sql)
+    //console.log(sql)
     const res = await this.db.query(sql, ...q.args)
     return res.rows.map(v => q.select ? v : v.body)
   }
   async find1(query?: any, options: QueryOptions = {}) {
     options.limit = 1
     const res = await this.find(query, options)
-    return res[0]
+    return res[0] || null
   }
   async count(query?: any, options: QueryOptions = {}) {
     options.select = 'count(*) as cnt'
