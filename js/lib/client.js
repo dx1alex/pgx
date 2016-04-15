@@ -22,7 +22,8 @@ class Client {
         this._pgClient = new pg.Client(connection);
     }
     connect() {
-        this._pgClient.connect(err => { throw err; });
+        this._pgClient.connect(err => { if (err)
+            throw err; });
         return this;
     }
     query(queryText, ...args) {
