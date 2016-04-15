@@ -1,6 +1,6 @@
 {
   "name": "pgx",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "pgx",
   "main": "js/index.js",
   "typings": "js/index",

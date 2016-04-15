@@ -1,6 +1,14 @@
 import * as pg from 'pg'
 import {Collection} from './collection'
 
+const TIMESTAMPTZ_OID = 1184
+const TIMESTAMP_OID = 1114
+function parseFn(val) {
+  return val === null ? null : new Date(val) // moment(val)
+}
+pg.types.setTypeParser(TIMESTAMPTZ_OID, parseFn)
+pg.types.setTypeParser(TIMESTAMP_OID, parseFn)
+
 export class Client {
   private _pgClient: pg.Client = null
   constructor(connection?: string) {

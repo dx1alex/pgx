@@ -9,6 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const pg = require('pg');
 const collection_1 = require('./collection');
+const TIMESTAMPTZ_OID = 1184;
+const TIMESTAMP_OID = 1114;
+function parseFn(val) {
+    return val === null ? null : new Date(val);
+}
+pg.types.setTypeParser(TIMESTAMPTZ_OID, parseFn);
+pg.types.setTypeParser(TIMESTAMP_OID, parseFn);
 class Client {
     constructor(connection) {
         this._pgClient = null;
