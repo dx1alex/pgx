@@ -3,7 +3,7 @@ import { Collection } from './collection';
 export declare class Client {
     private _pgClient;
     constructor(connection?: string);
-    connect(): Promise<Client>;
+    connect(): this;
     query(queryText: string | pg.QueryConfig, ...args: any[]): Promise<pg.QueryResult>;
     end(): void;
     on(event: string, listener: Function): this;

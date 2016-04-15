@@ -1,10 +1,10 @@
 import { Client } from './client';
 export declare class Collection {
-    db: Client;
+    client: Client;
     readonly name: string;
     readonly schema: string;
     readonly tableName: string;
-    constructor(name: string, db: Client);
+    constructor(name: string, client: Client);
     truncate(): Promise<any>;
     drop(): Promise<any>;
     delete(query?: any): Promise<any>;

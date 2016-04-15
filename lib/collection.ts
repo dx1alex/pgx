@@ -4,22 +4,22 @@ export class Collection {
   readonly name: string
   readonly schema: string
   readonly tableName: string
-  constructor(name: string, public db: Client) {
+  constructor(name: string, public client: Client) {
     [this.name, this.schema = 'collections'] = name.split('.').reverse()
     this.tableName = this.schema + '.' + this.name
   }
   async truncate() {
-    const res = await this.db.query(`select pd_truncate_collection('${this.name}', '${this.schema}') as result;`)
+    const res = await this.client.query(`select pd_truncate_collection('${this.name}', '${this.schema}') as result;`)
     return res.rows[0].result
   }
   async drop() {
-    const res = await this.db.query(`select pd_drop_collection('${this.name}', '${this.schema}') as result;`)
+    const res = await this.client.query(`select pd_drop_collection('${this.name}', '${this.schema}') as result;`)
     return res.rows[0].result
   }
   async delete(query?: any) {
     const q = this._sqlQuery(query)
     const sql = `delete from ${this.tableName} where ${q.where || true};`
-    const res: any = await this.db.query(sql, ...q.args)
+    const res: any = await this.client.query(sql, ...q.args)
     return res.rowCount
   }
   async insert(doc: any) {
@@ -27,12 +27,12 @@ export class Collection {
       const sql = `insert into ${this.tableName} (body) values ${
         doc.map(v => `($json$${JSON.stringify(v)}$json$)`).join(',')
         } returning id;`
-      const res = await this.db.query(sql)
+      const res = await this.client.query(sql)
       let i = 0
       for (let d of doc) d.id = res.rows[i++]
       return doc
     }
-    const res = await this.db.query(`insert into ${this.tableName} (body) values ($1) returning id;`, doc)
+    const res = await this.client.query(`insert into ${this.tableName} (body) values ($1) returning id;`, doc)
     doc.id = res.rows[0].id
     return doc
   }
@@ -40,11 +40,11 @@ export class Collection {
     const q = this._sqlQuery(query)
     const sql = `update ${this.tableName} set body = jsonb_set(body, $1, $2) where ${q.where || true};`
     const key = Object.keys(doc)[0]
-    const res: any = await this.db.query(sql, key.split('.'), doc[key], ...q.args)
+    const res: any = await this.client.query(sql, key.split('.'), doc[key], ...q.args)
     return res.rowCount
   }
   async save(doc: any, createNew?: boolean) {
-    const res: any = await this.db.query(`update ${this.tableName} set body = $1 where id = $2;`, doc, doc.id)
+    const res: any = await this.client.query(`update ${this.tableName} set body = $1 where id = $2;`, doc, doc.id)
     return res.rowCount
   }
   async find(query?: any, options?: number | QueryOptions) {
@@ -54,7 +54,7 @@ export class Collection {
       where ${q.where || true}
       ${q.orderBy ? 'order by ' + q.orderBy : ''} ${q.limit ? 'limit ' + q.limit : ''};`
     //console.log(sql)
-    const res = await this.db.query(sql, ...q.args)
+    const res = await this.client.query(sql, ...q.args)
     return res.rows.map(v => q.select ? v : v.body)
   }
   async find1(query?: any, options: QueryOptions = {}) {

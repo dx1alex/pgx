@@ -1,12 +1,9 @@
 {
   "name": "pgx",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "pgx",
   "main": "js/index.js",
   "typings": "js/index",
-  "scripts": {
-    "install": "tsd install"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dx1alex/pgx.git"

@@ -8,20 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 class Collection {
-    constructor(name, db) {
-        this.db = db;
+    constructor(name, client) {
+        this.client = client;
         [this.name, this.schema = 'collections'] = name.split('.').reverse();
         this.tableName = this.schema + '.' + this.name;
     }
     truncate() {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield this.db.query(`select pd_truncate_collection('${this.name}', '${this.schema}') as result;`);
+            const res = yield this.client.query(`select pd_truncate_collection('${this.name}', '${this.schema}') as result;`);
             return res.rows[0].result;
         });
     }
     drop() {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield this.db.query(`select pd_drop_collection('${this.name}', '${this.schema}') as result;`);
+            const res = yield this.client.query(`select pd_drop_collection('${this.name}', '${this.schema}') as result;`);
             return res.rows[0].result;
         });
     }
@@ -29,7 +29,7 @@ class Collection {
         return __awaiter(this, void 0, void 0, function* () {
             const q = this._sqlQuery(query);
             const sql = `delete from ${this.tableName} where ${q.where || true};`;
-            const res = yield this.db.query(sql, ...q.args);
+            const res = yield this.client.query(sql, ...q.args);
             return res.rowCount;
         });
     }
@@ -37,13 +37,13 @@ class Collection {
         return __awaiter(this, void 0, void 0, function* () {
             if (Object(doc)[Symbol.iterator] !== undefined) {
                 const sql = `insert into ${this.tableName} (body) values ${doc.map(v => `($json$${JSON.stringify(v)}$json$)`).join(',')} returning id;`;
-                const res = yield this.db.query(sql);
+                const res = yield this.client.query(sql);
                 let i = 0;
                 for (let d of doc)
                     d.id = res.rows[i++];
                 return doc;
             }
-            const res = yield this.db.query(`insert into ${this.tableName} (body) values ($1) returning id;`, doc);
+            const res = yield this.client.query(`insert into ${this.tableName} (body) values ($1) returning id;`, doc);
             doc.id = res.rows[0].id;
             return doc;
         });
@@ -53,13 +53,13 @@ class Collection {
             const q = this._sqlQuery(query);
             const sql = `update ${this.tableName} set body = jsonb_set(body, $1, $2) where ${q.where || true};`;
             const key = Object.keys(doc)[0];
-            const res = yield this.db.query(sql, key.split('.'), doc[key], ...q.args);
+            const res = yield this.client.query(sql, key.split('.'), doc[key], ...q.args);
             return res.rowCount;
         });
     }
     save(doc, createNew) {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield this.db.query(`update ${this.tableName} set body = $1 where id = $2;`, doc, doc.id);
+            const res = yield this.client.query(`update ${this.tableName} set body = $1 where id = $2;`, doc, doc.id);
             return res.rowCount;
         });
     }
@@ -70,7 +70,7 @@ class Collection {
       from ${this.tableName}
       where ${q.where || true}
       ${q.orderBy ? 'order by ' + q.orderBy : ''} ${q.limit ? 'limit ' + q.limit : ''};`;
-            const res = yield this.db.query(sql, ...q.args);
+            const res = yield this.client.query(sql, ...q.args);
             return res.rows.map(v => q.select ? v : v.body);
         });
     }

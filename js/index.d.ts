@@ -1,12 +1,14 @@
-import * as _pg from 'pg';
+import * as pg from 'pg';
 import { Client } from './lib/client';
 export * from './lib/client';
 export * from './lib/collection';
-export declare function sql(str: any, ...values: any[]): {
+declare function sql(str: any, ...values: any[]): {
     text: any;
     values: any[];
 };
-export declare const pg: typeof _pg & {
-    cc: (connection?: any) => Promise<Client>;
+declare const pgx: {
+    cc: (connection?: any) => Client;
+    connect: (connection?: any) => Client;
 };
-export default pg;
+export { pg, pgx, sql };
+export default pgx;

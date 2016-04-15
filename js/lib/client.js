@@ -22,13 +22,8 @@ class Client {
         this._pgClient = new pg.Client(connection);
     }
     connect() {
-        return new Promise((resolve, reject) => {
-            this._pgClient.connect(err => {
-                if (err)
-                    return reject(err);
-                resolve(this);
-            });
-        });
+        this._pgClient.connect(err => { throw err; });
+        return this;
     }
     query(queryText, ...args) {
         return new Promise((resolve, reject) => {

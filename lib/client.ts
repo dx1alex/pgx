@@ -14,13 +14,9 @@ export class Client {
   constructor(connection?: string) {
     this._pgClient = new pg.Client(connection)
   }
-  connect(): Promise<Client> {
-    return new Promise((resolve, reject) => {
-      this._pgClient.connect(err => {
-        if (err) return reject(err)
-        resolve(this)
-      })
-    })
+  connect() {
+    this._pgClient.connect(err => { throw err })
+    return this
   }
   query(queryText: string | pg.QueryConfig, ...args): Promise<pg.QueryResult> {
     return new Promise((resolve, reject) => {
